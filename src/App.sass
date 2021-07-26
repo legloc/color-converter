@@ -1,7 +1,84 @@
 body
+  display: flex
+  justify-content: center
+  align-items: center
   background: #fff
+  min-height: 100vh
   font-family: 'Nunito', sans-serif
-  font-size: 16px
+  font-size: 18px
+  padding: 0 30px
 
   *
     box-sizing: border-box
+
+.wrapper
+  background: #fff
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px
+  width: 400px
+  padding: 30px
+  border-radius: 15px
+
+.logo
+  text-align: center
+
+  .logo-title
+    margin-top: 0
+
+.form-group
+  display: flex
+  flex-direction: column
+  margin-bottom: 1em
+
+  .input-group
+    position: relative
+  
+  .form-label
+    font-weight: 700
+    color: #111
+
+  .form-input
+    background: none
+    border: 1px #ccc solid
+    border-radius: 5px
+    width: 100%
+    font-family: inherit
+    font-size: 1em
+    padding: 10px
+    transition: border .1s ease-in-out
+    z-index: 2
+
+    &:focus
+      border: 1px #007aff solid
+      outline: none
+
+  .input-addon
+    position: absolute
+    background: none
+    border: none
+    border-left: 1px #ccc solid
+    border-radius: 0 4px 4px 0
+    width: auto
+    height: auto
+    top: 1px
+    bottom: 1px
+    margin-top: auto
+    margin-bottom: auto
+    right: 1px
+    transition: background .1s ease-in-out
+    cursor: pointer
+    z-index: 1
+
+    &:hover
+      background: #ececec
+
+    &:active
+      background: #cccccc
+
+    .addon-icon
+      width: 2em
+      height: 2em
+
+@media (max-width: 500px)
+  .wrapper
+    width: 80vw
+    padding: 15px
