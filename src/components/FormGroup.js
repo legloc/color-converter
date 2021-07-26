@@ -1,11 +1,17 @@
+import InputMask from 'react-input-mask'
 import IconCopy from '../icon-copy.svg'
 
-const FormGroup = ({ title, placeholder, name }) => {
+const FormGroup = ({ title, placeholder, mask }) => {
   return (
     <div className="form-group">
-      <label className="form-label" htmlFor={ name }>{ title }</label>
+      <label className="form-label" htmlFor={ `${ title }-input` }>{ title }</label>
       <div className="input-group">
-        <input className="form-input" id={ name } type="text" placeholder={ placeholder } />
+        <InputMask
+          className="form-input"
+          id={ `${ title }-input` }
+          type="text"
+          mask={ mask }
+          placeholder={ placeholder }/>
         <button className="input-addon">
           <img className="addon-icon" src={ IconCopy } alt="Copy" />
         </button>

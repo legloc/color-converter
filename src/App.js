@@ -6,10 +6,22 @@ const App = () => {
   return (
     <div className="wrapper">
       <Logo color="#ccc" />
-      <FormGroup title="HEX" placeholder="#FFFFFF" name="HEX-input" />
-      <FormGroup title="RGB" placeholder="rgb(255, 255, 255)" name="RGB-input" />
-      <FormGroup title="HSL" placeholder="hsl(0, 0%, 100%)" name="HSL-input" />
-      <FormGroup title="CMYK" placeholder="cmyk(0, 0, 0, 0)" name="CMYK-input" />
+      <FormGroup
+        title="HEX"
+        placeholder="#FFFFFF"
+        mask="#******" />
+      <FormGroup
+        title="RGB"
+        placeholder="rgb(255, 255, 255)"
+        mask="rgb(999, 999, 999)" />
+      <FormGroup
+        title="HSL"
+        placeholder="hsl(0, 0%, 100%)"
+        mask="hsl(999, 999%, 999%)" />
+      <FormGroup
+        title="CMYK"
+        placeholder="cmyk(0, 0, 0, 0)"
+        mask="cmyk(999, 999, 999, 999)" />
     </div>
   )
 }
