@@ -1,3 +1,4 @@
+import copy from 'copy-to-clipboard'
 import IconCopy from '../icon-copy.svg'
 
 const FormGroup = ({ title, placeholder, value, onChange }) => {
@@ -12,7 +13,7 @@ const FormGroup = ({ title, placeholder, value, onChange }) => {
           placeholder={ placeholder }
           value={ value }
           onChange={ e => onChange(e.target.value) } />
-        <button className="input-addon">
+        <button className="input-addon" onClick={ () => copy(value) }>
           <img className="addon-icon" src={ IconCopy } alt="Copy" />
         </button>
       </div>

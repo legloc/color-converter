@@ -13,7 +13,7 @@ const App = () => {
   })
 
   const maskTo = (format, value) => {
-    if (format === 'hex') return `#${ value }`
+    if (format === 'hex') return `${ value[0] !== '#' ? '#' : '' }${ value }`
     if (format === 'rgb') return `rgb(${ value })`
     if (format === 'hsl') return `hsl(${ value[0] },${ value[1] }%,${ value[2] }%)`
     if (format === 'cmyk') return `cmyk(${ value })`
@@ -21,7 +21,7 @@ const App = () => {
 
   const handleHEXchange = e => {
     setState({
-      hex: e,
+      hex: maskTo('hex', e),
       rgb: maskTo('rgb', convert.hex.rgb(e)),
       hsl: maskTo('hsl', convert.hex.hsl(e)),
       cmyk: maskTo('cmyk', convert.hex.cmyk(e))
@@ -65,28 +65,30 @@ const App = () => {
   }
 
   return (
-    <div className="wrapper">
-      <Logo color={ state.hex } />
-      <FormGroup
-        title="HEX"
-        placeholder="#FFFFFF"
-        value={ state.hex }
-        onChange={ e => handleHEXchange(e) } />
-      <FormGroup
-        title="RGB"
-        placeholder="rgb(255,255,255)"
-        value={ state.rgb }
-        onChange={ e => handleRGBchange(e) } />
-      <FormGroup
-        title="HSL"
-        placeholder="hsl(0,0%,100%)"
-        value={ state.hsl }
-        onChange={ e => handleHSLchange(e) } />
-      <FormGroup
-        title="CMYK"
-        placeholder="cmyk(0,0,0,0)"
-        value={ state.cmyk }
-        onChange={ e => handleCMYKchange(e) } />
+    <div className="wrapper" style={{ 'background': state.hex }}>
+      <div className="converter">
+        <Logo color={ state.hex } />
+        <FormGroup
+          title="HEX"
+          placeholder="#FFFFFF"
+          value={ state.hex }
+          onChange={ e => handleHEXchange(e) } />
+        <FormGroup
+          title="RGB"
+          placeholder="rgb(255,255,255)"
+          value={ state.rgb }
+          onChange={ e => handleRGBchange(e) } />
+        <FormGroup
+          title="HSL"
+          placeholder="hsl(0,0%,100%)"
+          value={ state.hsl }
+          onChange={ e => handleHSLchange(e) } />
+        <FormGroup
+          title="CMYK"
+          placeholder="cmyk(0,0,0,0)"
+          value={ state.cmyk }
+          onChange={ e => handleCMYKchange(e) } />
+      </div>
     </div>
   )
 }
