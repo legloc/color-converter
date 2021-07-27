@@ -12,55 +12,38 @@ const App = () => {
     cmyk: ''
   })
 
-  const maskTo = (format, value) => {
-    if (format === 'hex') return `${ value[0] !== '#' ? '#' : '' }${ value }`
-    if (format === 'rgb') return `rgb(${ value })`
-    if (format === 'hsl') return `hsl(${ value[0] },${ value[1] }%,${ value[2] }%)`
-    if (format === 'cmyk') return `cmyk(${ value })`
+  const mask = (type, color) => {
+    if (type === 'hex') return `${ color[0] !== '#' ? '#' : '' }${ color }`
+    if (type === 'rgb') return `rgb(${ color })`
+    if (type === 'hsl') return `hsl(${ color[0] },${ color[1] }%,${ color[2] }%)`
+    if (type === 'cmyk') return `cmyk(${ color })`
   }
 
-  const handleHEXchange = e => {
-    setState({
-      hex: maskTo('hex', e),
-      rgb: maskTo('rgb', convert.hex.rgb(e)),
-      hsl: maskTo('hsl', convert.hex.hsl(e)),
-      cmyk: maskTo('cmyk', convert.hex.cmyk(e))
-    })
+  const parser = (type, color) => {
+    if (type !== 'hex')
+      return color
+        .substring(color.indexOf('(') + 1, color.indexOf(')'))
+        .replaceAll(' ', '')
+        .replaceAll('%', '')
+        .split(',')
+        .map(Number)
+    else
+      return color
   }
 
-  const handleRGBchange = e => {
-    let substring = e.substring(e.indexOf('(') + 1, e.indexOf(')'))
-    let value = substring.replaceAll(' ', '').split(',')
-    
-    setState({
-      hex: maskTo('hex', convert.rgb.hex(value)),
-      rgb: e,
-      hsl: maskTo('hsl', convert.rgb.hsl(value)),
-      cmyk: maskTo('cmyk', convert.rgb.cmyk(value))
-    })
-  }
+  const handleChange = (type, color) => {
+    let conversion
 
-  const handleHSLchange = e => {
-    let substring = e.substring(e.indexOf('(') + 1, e.indexOf(')')).replaceAll('%', '')
-    let value = substring.split(', ')
+    if (type === 'hex') conversion = convert.hex
+    if (type === 'rgb') conversion = convert.rgb
+    if (type === 'hsl') conversion = convert.hsl
+    if (type === 'cmyk') conversion = convert.cmyk
 
     setState({
-      hex: maskTo('hex', convert.hsl.hex(value)),
-      rgb: maskTo('rgb', convert.hsl.rgb(value)),
-      hsl: e,
-      cmyk: maskTo('cmyk', convert.hsl.cmyk(value))
-    })
-  }
-
-  const handleCMYKchange = e => {
-    let substring = e.substring(e.indexOf('(') + 1, e.indexOf(')'))
-    let value = substring.split(', ')
-
-    setState({
-      hex: maskTo('hex', convert.cmyk.hex(value)),
-      rgb: maskTo('rgb', convert.cmyk.rgb(value)),
-      hsl: maskTo('hsl', convert.cmyk.hsl(value)),
-      cmyk: e
+      hex: type === 'hex' ? mask('hex', color) : mask('hex', conversion.hex(parser(type, color))),
+      rgb: type === 'rgb' ? color : mask('rgb', conversion.rgb(parser(type, color))),
+      hsl: type === 'hsl' ? color : mask('hsl', conversion.hsl(parser(type, color))),
+      cmyk: type === 'cmyk' ? color : mask('cmyk', conversion.cmyk(parser(type, color)))
     })
   }
 
@@ -72,22 +55,22 @@ const App = () => {
           title="HEX"
           placeholder="#FFFFFF"
           value={ state.hex }
-          onChange={ e => handleHEXchange(e) } />
+          onChange={ e => handleChange('hex', e) } />
         <FormGroup
           title="RGB"
           placeholder="rgb(255,255,255)"
           value={ state.rgb }
-          onChange={ e => handleRGBchange(e) } />
+          onChange={ e => handleChange('rgb', e) } />
         <FormGroup
           title="HSL"
           placeholder="hsl(0,0%,100%)"
           value={ state.hsl }
-          onChange={ e => handleHSLchange(e) } />
+          onChange={ e => handleChange('hsl', e) } />
         <FormGroup
           title="CMYK"
           placeholder="cmyk(0,0,0,0)"
           value={ state.cmyk }
-          onChange={ e => handleCMYKchange(e) } />
+          onChange={ e => handleChange('cmyk', e) } />
       </div>
     </div>
   )
